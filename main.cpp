@@ -1,12 +1,30 @@
 #include <iostream>
 #include <raylib.h>
 using namespace std;
+#include <deque>
 
 Color green = {173, 204, 96, 255};
 Color dark_green = {43, 24, 51, 255};
 
 int cell_size = 30;
 int cell_count = 25;
+
+class Snake
+{
+public:
+    deque<Vector2> body = {Vector2{6, 9}, Vector2{4, 9}, Vector2{5, 9}};
+
+    void Draw()
+    {
+        for (int i = 0; i < body.size(); i++)
+        {
+            float x = body[i].x;
+            float y = body[i].y;
+            Rectangle segment = Rectangle{x * cell_size, y * cell_size, float(cell_size), float(cell_size)};
+            DrawRectangleRounded(segment, 0.5, 6, dark_green);
+        }
+    }
+};
 
 class Food
 {
@@ -47,6 +65,7 @@ int main()
     SetTargetFPS(60);
 
     Food food = Food();
+    Snake snake = Snake();
 
     while (WindowShouldClose() == false)
     {
@@ -54,6 +73,7 @@ int main()
 
         ClearBackground(green);
         food.Draw();
+        snake.Draw();
         EndDrawing();
     }
 
